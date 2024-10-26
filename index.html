@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <style>
+    .image-hover-effect {
+    transition: transform 0.3s ease; 
+}
+
+.image-hover-effect:hover {
+    transform: scale(1.1); 
+}
+
+    .floor-lighting {
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+    .background-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+      transition: opacity 1s ease; 
+    }
+    .content-box {
+      width: 550px; 
+      padding: 50px; 
+      box-shadow: 0 0 30px rgba(255, 0, 0, 0.7); 
+      border-radius: 18px; 
+      background: rgba(0, 0, 0, 0.7); 
+      backdrop-filter: blur(20px); 
+      position: relative; 
+    }
+    .popup {
+      display: none;
+      position: fixed; 
+      top: 0;
+      left: 0;
+      width: 100%; 
+      height: 100%; 
+      background-color: rgba(0, 0, 0, 0.5); 
+      z-index: 10;
+      color: white;
+      text-align: center; 
+      padding: 0; 
+      justify-content: center; 
+      align-items: center; 
+      display: flex; 
+      backdrop-filter: blur(10px); 
+      opacity: 1; 
+      transition: opacity 0.5s ease; 
+    }
+    .popup.hidden {
+      opacity: 0; 
+      pointer-events: none; 
+    }
+    .click-here {
+      background-color: rgba(255, 0, 0, 0.7); 
+      border: none;
+      border-radius: 20px;
+      padding: 20px 40px; 
+      color: white;
+      font-size: 28px; 
+      cursor: pointer; 
+      box-shadow: 0 0 30px rgba(255, 0, 0, 0.74); 
+      transition: all 0.3s ease; 
+      transform: scale(1); 
+    }
+    .click-here:hover {
+      background-color: rgb(255, 0, 0); 
+      box-shadow: 0 0 40px rgb(255, 0, 0); 
+    }
+    .mute-button {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background-color: rgba(255, 0, 0, 0.5); 
+      border: none;
+      border-radius: 10px;
+      color: white;
+      padding: 5px; 
+      cursor: pointer;
+      z-index: 20; 
+      box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+      transition: all 0.3s ease; 
+    }
+    .mute-button:hover {
+      background-color: rgba(255, 0, 0, 1); 
+      box-shadow: 0 0 20px rgba(255, 0, 0, 1); 
+    }
+    .mute-button i {
+      font-size: 35px; 
+    }
+    .icon-container {
+      display: flex;
+      flex-direction: column; 
+      align-items: flex-start; 
+      margin-top: 10px;
+    }
+    .icon {
+      margin: 10px 0; 
+      font-size: 45px; 
+      transition: color 0.3s, transform 0.3s; 
+      width: 25px; 
+      height: 40px; 
+      display: flex; 
+      justify-content: center; 
+      align-items: center; 
+    }
+    .icon-instagram {
+      color: rgba(255, 94, 171, 1); 
+    }
+    .icon-discord {
+      color: rgba(88, 101, 242, 1); 
+    }
+    .icon-youtube {
+      color: rgb(255, 0, 0); 
+    }
+    .icon:hover {
+      color: rgb(255, 255, 255); 
+      transform: scale(1.1); 
+      
+    }
+    @keyframes glowing {
+  0% {
+    box-shadow: 0 0 5px rgba(255, 0, 0, 0.7), 0 0 10px rgba(255, 0, 0, 0.5), 0 0 20px rgba(255, 0, 0, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(255, 0, 0, 1), 0 0 30px rgba(255, 0, 0, 0.5), 0 0 60px rgba(255, 0, 0, 0.3);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(255, 0, 0, 0.7), 0 0 10px rgba(255, 0, 0, 0.5), 0 0 20px rgba(255, 0, 0, 0.3);
+  }
+}
+
+.cylinder {
+  width: 270px; 
+  height: 50px; 
+  background-color: rgb(0, 0, 0); 
+  border-radius: 20px; 
+  margin-left: 65px; 
+  transition: transform 0.3s; 
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  position: relative; 
+  animation: glowing 1.5s infinite; /
+}
+
+
+
+.cylinder:hover {
+  background-color: rgba(255, 0, 0, 0.8); 
+  box-shadow: 0 0 20px rgba(255, 0, 0, 1); 
+  transform: scale(1.05); 
+}
+
+    
+.cylinder-text {
+  position: absolute; 
+  font-size: 16px; 
+  font-weight: bold; 
+  z-index: 1; 
+  text-align: center; 
+  transition: text-shadow 0.5s; 
+  color: white; 
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 0, 0, 0.6), 0 0 30px rgba(255, 0, 0, 0.4); 
+}
+
+
+
+    
+    .cylinder:nth-child(2) .cylinder-text {
+      color: rgb(255, 255, 255); 
+    }
+    .cylinder:nth-child(2) .cylinder-text {
+      color: rgb(255, 0, 0); 
+    }
+    .cylinder:nth-child(2) .cylinder-text {
+      color: rgb(255, 255, 255); 
+    }
+    .cylinder:hover .cylinder-text {
+      text-shadow: 0 0 10px RED rgba(255, 255, 255, 2); 
+    }
+    .icon-cylinder-container {
+      display: flex; 
+      align-items: center; 
+      margin: 10px 0; 
+    }
+  </style>
+</head>
+<body class="bg-cover bg-center h-screen">
+  <video id="backgroundVideo" class="background-video" muted>
+    <source src="wadei.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+  <audio id="backgroundAudio" loop>
+    <source src="wadei.mp4" type="audio/mpeg">
+    Your browser does not support the audio tag.
+  </audio>
+
+ 
+  <div id="popup" class="popup">
+    <div class="text-2xl font-bold mb-4">مرحبًا بك في موقعنا</div>
+    <button id="playSound" class="click-here">Enter</button>
+  </div>
+
+  
+  <button id="muteButton" class="mute-button">
+    <i class="fas fa-volume-up"></i> 
+  </button>
+
+  <div class="flex items-center justify-center h-full">
+    <div class="content-box text-center relative">
+      <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+        <img alt="Profile picture" class="rounded-full border-4 border-red-500" height="100" src="57d43714-1b75-4b1a-ac5a-67ad0ccf8929.png" width="100"/>
+      </div>
+
+      
+      <div class="icon-cylinder-container">
+        <a class="icon icon-instagram" href="https://www.instagram.com/wadei.shatnawi" target="_blank">
+          <i class="fab fa-instagram"></i>
+        </a>
+        <a class="cylinder" href="https://www.instagram.com/wadei.shatnawi" target="_blank">
+          <span class="cylinder-text">wadei.shatnawi</span>
+        </a>
+      </div>
+      <div class="icon-cylinder-container">
+        <a class="icon icon-discord" href="https://discord.com/channels/@me" target="_blank">
+          <i class="fab fa-discord"></i>
+        </a>
+        <a class="cylinder" href="https://discord.com/channels/@me" target="_blank">
+          <span class="cylinder-text">wade3</span>
+        </a>
+      </div>
+      <div class="icon-cylinder-container">
+        <a class="icon icon-youtube" href="https://www.youtube.com/@PCOPTMIZE.1" target="_blank">
+          <i class="fab fa-youtube"></i>
+        </a>
+        <a class="cylinder" href="https://www.youtube.com/@PCOPTMIZE.1" target="_blank">
+          <span class="cylinder-text">PC OPTMIZE</span>
+        </a>
+      </div>
+      
+
+  <script>
+    const audio = document.getElementById('backgroundAudio');
+    const video = document.getElementById('backgroundVideo');
+    const popup = document.getElementById('popup');
+    const playSound = document.getElementById('playSound');
+    const muteButton = document.getElementById('muteButton');
+
+    
+    window.onload = () => {
+      popup.style.display = 'flex'; 
+    };
+
+    
+    playSound.addEventListener('click', () => {
+      video.style.opacity = 0; 
+      setTimeout(() => {
+        video.play(); 
+        audio.play(); 
+        video.style.opacity = 1; 
+      }, 500); 
+
+      
+      popup.classList.add('hidden');
+      setTimeout(() => {
+        popup.style.display = 'none'; 
+      }, 500); 
+    });
+
+    
+    muteButton.addEventListener('click', () => {
+      if (audio.paused) {
+        audio.play();
+        muteButton.innerHTML = '<i class="fas fa-volume-up"></i>'; 
+      } else {
+        audio.pause();
+        muteButton.innerHTML = '<i class="fas fa-volume-mute"></i>'; 
+      }
+    });
+
+
+
+video.addEventListener('ended', () => {
+  video.currentTime = 0; 
+  video.play(); 
+});
+  </script>
+</body>
+</html>
